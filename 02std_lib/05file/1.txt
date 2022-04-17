@@ -1,0 +1,68 @@
+  静夜思
+    李白
+床前明月光，
+疑是地上霜;
+举头望明月，
+低头思故乡。
+package main
+
+import (
+	"fmt"
+	"io"
+	"os"
+)
+
+// 文件操作
+
+func main() {
+
+}
+
+func readFromFile() {
+	file, err := os.Open("./02std_lib/05file//1.txt") // 相对路径，相对执行的程序同目录下的1.txt
+	if err != nil {
+		fmt.Printf("open file err: %s", err)
+		return
+	}
+	// 关闭文件
+	defer file.Close()
+
+	// 读取文件内容
+	tmp := make([]byte, 128)
+	n, err := file.Read(tmp)
+	if err != nil {
+		fmt.Printf("read file err: %s", err)
+		return
+	}
+	fmt.Printf("read %d bytes from file. \n", n)
+	fmt.Println(string(tmp))
+}
+
+func readAll() {
+	file, err := os.Open("./02std_lib/05file//1.txt") // 相对路径，相对执行的程序同目录下的1.txt
+	if err != nil {
+		fmt.Printf("open file err: %s", err)
+		return
+	}
+	// 关闭文件
+	defer file.Close()
+
+	// 读取文件内容
+	tmp := make([]byte, 128)
+	for {
+		n, err := file.Read(tmp)
+		if err == io.EOF {
+			// 把当前读了多少个字节的数据打印出来，然后退出
+			fmt.Println(string(tmp[:n]))
+			return
+		}
+		if err == nil {
+			fmt.Printf("read file err: %s", err)
+			return
+		}
+		fmt.Printf("read %d bytes from file. \n", n)
+		fmt.Println(string(tmp[:n]))
+	}
+}
+
+this is end of file!
